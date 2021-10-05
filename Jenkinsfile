@@ -15,6 +15,7 @@ pipeline {
         AWS_SECRET_ACCESS_KEY             = credentials('aws-secret-access-key')
         TF_INPUT                          = 0
         TF_IN_AUTOMATION                  = 'Jenkins'
+        PUBLIC_IP = get_public_ip()
     }
     stages {
         stage('Apply') {
@@ -31,14 +32,10 @@ pipeline {
                     sh 'terraform apply -auto-approve'
                     sh 'terraform output > ../variables.pkrvars.hcl'
                 }
-
-                // get our egress IP address
-                ip = get_public_ip()
-                echo ip
-
+       
                 // get packer going
                 sh 'packer init .'
-                sh "packer build -var-file=variables.pkrvars.hcl -var source_ip=${ip} ."
+                sh "packer build -var-file=variables.pkrvars.hcl -var source_ip=${PUBLIC_IP} ."
             }
         }
     }
