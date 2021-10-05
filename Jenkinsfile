@@ -29,7 +29,7 @@ pipeline {
                 }
                 sh 'echo -n "source_ip = \\"" >> variables.pkrvars.hcl'
                 sh 'curl checkip.amazonaws.com | tr -d \'\n\' >> variables.pkrvars.hcl'
-                sh 'echo "\\"" >> variables.pkrvars.hcl'
+                sh 'echo "/32\\"" >> variables.pkrvars.hcl'
                 sh 'cat variables.pkrvars.hcl'
                 
                 // get packer going
