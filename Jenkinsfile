@@ -31,7 +31,7 @@ pipeline {
                 sh 'cat variables.pkrvars.hcl'
                 // get packer going
                 sh 'packer init .'
-                sh "packer build -var-file=variables.pkrvars.hcl -var source_ip=${PUBLIC_IP} ."
+                sh 'packer build -var-file=variables.pkrvars.hcl .'
             }
         }
     }
