@@ -126,3 +126,5 @@ $RECYCLE.BIN/
 
 # Expoered from Terraform
 variables.pkrvars.hcl    
+jenkins
+.jenkins
