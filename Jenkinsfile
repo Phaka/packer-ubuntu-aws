@@ -1,7 +1,3 @@
-def get_public_ip() {
-    return sh(returnStdout: true, script: 'curl checkip.amazonaws.com').trim()
-}
-
 pipeline {
     options {
         disableConcurrentBuilds()
@@ -15,7 +11,6 @@ pipeline {
         AWS_SECRET_ACCESS_KEY             = credentials('aws-secret-access-key')
         TF_INPUT                          = 0
         TF_IN_AUTOMATION                  = 'Jenkins'
-        PUBLIC_IP = get_public_ip()
     }
     stages {
         stage('Apply') {
@@ -32,7 +27,8 @@ pipeline {
                     sh 'terraform apply -auto-approve'
                     sh 'terraform output > ../variables.pkrvars.hcl'
                 }
-       
+                sh 'IP = `curl checkip.amazonaws.com` && echo "source_ip = \"$IP$\"" >> variables.pkrvars.hcl'
+                sh 'cat variables.pkrvars.hcl'
                 // get packer going
                 sh 'packer init .'
                 sh "packer build -var-file=variables.pkrvars.hcl -var source_ip=${PUBLIC_IP} ."
