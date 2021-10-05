@@ -1,3 +1,7 @@
+def get_public_ip() {
+    return sh(returnStdout: true, script: 'curl checkip.amazonaws.com').trim()
+}
+
 pipeline {
     options {
         disableConcurrentBuilds()
@@ -29,15 +33,12 @@ pipeline {
                 }
 
                 // get our egress IP address
-                MY_IP = sh(
-                    script: 'curl checkip.amazonaws.com',
-                    returnStdout: true
-                ).trim()
-                echo "${MY_IP}"
+                ip = get_public_ip()
+                echo ip
 
                 // get packer going
                 sh 'packer init .'
-                sh "packer build -var-file=variables.pkrvars.hcl -var source_ip=${MY_IP} ."
+                sh "packer build -var-file=variables.pkrvars.hcl -var source_ip=${ip} ."
             }
         }
     }
