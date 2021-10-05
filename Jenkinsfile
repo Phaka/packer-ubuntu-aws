@@ -27,7 +27,7 @@ pipeline {
                     sh 'terraform apply -auto-approve'
                     sh 'terraform output > ../variables.pkrvars.hcl'
                 }
-                sh 'IP = `curl checkip.amazonaws.com` && echo "source_ip = \"$IP$\"" >> variables.pkrvars.hcl'
+                sh 'IP = `curl checkip.amazonaws.com` && echo "source_ip = \\"$IP\\"" >> variables.pkrvars.hcl'
                 sh 'cat variables.pkrvars.hcl'
                 // get packer going
                 sh 'packer init .'
