@@ -35,10 +35,17 @@ pipeline {
                 // get packer going
                 sh 'packer init .'
                 sh 'packer build -var-file=variables.pkrvars.hcl .'
-                dir('vpc') {
-                    sh 'terraform apply -destroy -auto-approve'
-                }
+                
             }
         }
+    }
+    post {
+      always {
+        node(null) {
+          dir('vpc') {
+                    sh 'terraform apply -destroy -auto-approve'
+                }
+        }
+      }
     }
 }
