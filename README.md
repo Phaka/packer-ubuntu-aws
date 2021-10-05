@@ -171,6 +171,7 @@ Secret Name | Type | Comments
  aws-secret-key-id | Text | the access key id
  aws-secret-access-key | Text | the secret access key
 
-You also want to configure Jenkins so 
+You also want to configure Jenkins so it can clone and build the repo from
+GitHub.
 
 
