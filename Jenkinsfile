@@ -28,8 +28,8 @@ pipeline {
                     sh 'terraform output > ../variables.pkrvars.hcl'
                 }
                 sh 'echo -n "source_ip = \\"" >> variables.pkrvars.hcl'
-                sh 'curl checkip.amazonaws.com | sed \'s/^ *//;s/ *$//\' >> variables.pkrvars.hcl'
-                sh 'echo -n "\\"" >> variables.pkrvars.hcl'
+                sh 'curl checkip.amazonaws.com | tr -d \'\n\' >> variables.pkrvars.hcl'
+                sh 'echo "\\"" >> variables.pkrvars.hcl'
                 sh 'cat variables.pkrvars.hcl'
                 
                 // get packer going
