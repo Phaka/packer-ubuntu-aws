@@ -4,7 +4,7 @@ pipeline {
     }
     agent none
     triggers {
-        cron("@hourly")
+        cron("@weekly")
     }
     environment {
         AWS_ACCESS_KEY_ID                 = credentials('aws-secret-key-id')
